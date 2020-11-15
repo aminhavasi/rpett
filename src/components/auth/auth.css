@@ -4,7 +4,7 @@
 }
 
 .auth {
-    background-color: rgba(229, 236, 236, 0.897);
+    background-color: rgba(74, 118, 241, 0.897);
 }
 
 .form-label-group small {
@@ -21,7 +21,7 @@
     visibility: visible;
 }
 .form-label-group.success input {
-    border-color: seagreen;
+    border-color: rgb(6, 155, 71);
 }
 
 .form-label-group.success small {

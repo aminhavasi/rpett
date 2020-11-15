@@ -92,7 +92,7 @@ const Register = () => {
             await checkLength(family, 3, 256);
             await checkLength(password, 8, 1024);
             await checkLength(username, 3, 256);
-            console.log(e);
+
             await checkEmail(email);
         } catch (err) {
             console.log(err);
