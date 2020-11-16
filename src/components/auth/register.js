@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
 import './auth.css';
+import { emailReg } from './../../utils/reg';
+import { errorHandler } from './../../utils/err';
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -13,11 +14,15 @@ const Register = () => {
     const [username, setUsername] = useState('');
 
     //-------------------------------------------------
+    const getFeildName = (input) => {
+        return input.id.charAt(0).toUpperCase() + input.id.slice(1);
+    };
     const showError = (input, message) => {
         const formCotrol = input.parentElement;
         formCotrol.className = 'form-label-group error';
         const small = formCotrol.querySelector('small');
         small.innerText = message;
+        return errorHandler(`${getFeildName(input)} has wrong `, 1000);
     };
     const showSuccess = (input, message) => {
         const formCotrol = input.parentElement;
@@ -27,25 +32,20 @@ const Register = () => {
     };
 
     const checkEmail = (email) => {
-        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (re.test(email.value.trim())) {
-            alert('success');
+        if (emailReg.test(email.value.trim())) {
+            showSuccess(email, 'good');
         } else {
-            showError(email, 'Email is not valid');
-            return 'amin';
+            return showError(email, 'Email is not valid');
         }
-    };
-    const getFeildName = (input) => {
-        return input.id.charAt(0).toUpperCase() + input.id.slice(1);
     };
     const checkLength = (input, min, max) => {
         if (input.value.length < min) {
-            showError(
+            return showError(
                 input,
                 `${getFeildName(input)} must be at least ${min} characters`
             );
         } else if (input.value.length > max) {
-            showError(
+            return showError(
                 input,
                 `${getFeildName(input)} nust be  less than  ${max} characters`
             );
@@ -53,21 +53,41 @@ const Register = () => {
             showSuccess(input, 'good');
         }
     };
-    const checkRequired = (inputArray) => {
-        let status = 0;
+    const checkRequireds = (inputArray) => {
+        let errors = [];
         inputArray.forEach((input) => {
-            if (input.value.trim() === '') {
-                showError(input, `${getFeildName(input)} is required`);
-                status = 1;
+            if (input[0].value.trim() === '') {
+                let errorx = showError(
+                    input[0],
+                    `${getFeildName(input[0])} is required`
+                );
+
+                errors.push(errorx);
+
                 return;
+            } else if (input[0].value.trim() !== '') {
+                if (input[0].id === 'inputEmail') {
+                    let errorx = checkEmail(input[0]);
+                    if (errorx) errors.push(errorx);
+                    return;
+                } else {
+                    let errorx = checkLength(input[0], input[1], input[2]);
+                    if (errorx) errors.push(errorx);
+
+                    return;
+                }
             } else {
-                showSuccess(input, 'good');
+                showSuccess(input[0], 'good');
             }
         });
-        if (status === 1) {
-            return 'amin';
-        }
+        console.log('***', errors);
+        return errors;
     };
+
+    const formValidator = (arr) => {
+        let errors = [];
+    };
+
     const submit = async (e) => {
         e.preventDefault();
         const name = document.getElementById('inputName');
@@ -78,22 +98,18 @@ const Register = () => {
         const password = document.getElementById('inputPassword');
         const password2 = document.getElementById('inputConfirmPassword');
         try {
-            const e = await checkRequired([
-                name,
-                family,
-                username,
-                email,
-                password2,
-                password,
-                bd,
+            const erx = await checkRequireds([
+                [name, 3, 255],
+                [family, 3, 255],
+                [username, 3, 255],
+                [email, 3, 255],
+                [password2, 8, 1024],
+                [password, 8, 1024],
+                [bd, 10, 11],
             ]);
-
-            await checkLength(name, 3, 256);
-            await checkLength(family, 3, 256);
-            await checkLength(password, 8, 1024);
-            await checkLength(username, 3, 256);
-
-            await checkEmail(email);
+            if (erx.length === 0) {
+                alert('success');
+            }
         } catch (err) {
             console.log(err);
         }
@@ -157,7 +173,7 @@ const Register = () => {
                                     </div>
                                     <div className="form-label-group">
                                         <input
-                                            type="email"
+                                            type="text"
                                             id="inputEmail"
                                             className="form-control"
                                             placeholder="Example@info.com"
@@ -218,7 +234,7 @@ const Register = () => {
                                     </button>
                                     <a
                                         className="d-block text-center mt-2 small"
-                                        href="#"
+                                        href="/"
                                     >
                                         Sign In
                                     </a>
