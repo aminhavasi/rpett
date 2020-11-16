@@ -1,7 +1,3 @@
-const { errorHandler } = require('./src/utils/err');
-const bf = () => {
-    return errorHandler('salam', 104);
-};
+const { c } = require('./src/services/validator');
 
-const res = bf();
-console.log(res);
+console.log(c);
