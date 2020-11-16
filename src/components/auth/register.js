@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { checkRequirement } from '../../utils/validator';
+import { httpRegister } from './../../services/httpAuth';
 import './auth.css';
+import { notify } from './../../utils/toast';
 
-const Register = () => {
-    const [name, setName] = useState('');
-    const [family, setFamily] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordRe, setPasswordRe] = useState('');
+const Register = (props) => {
+    const [namex, setName] = useState('');
+    const [familyx, setFamily] = useState('');
+    const [emailx, setEmail] = useState('');
+    const [passwordx, setPassword] = useState('');
+    const [passwordRex, setPasswordRe] = useState('');
 
-    const [bornDate, setBornDate] = useState('');
-    const [username, setUsername] = useState('');
+    const [bornDatex, setBornDate] = useState('');
+    const [usernamex, setUsername] = useState('');
 
     //-------------------------------------------------
 
@@ -34,7 +36,19 @@ const Register = () => {
                 [bd, 10, 11],
             ]);
             if (erx.length === 0) {
-                alert('success');
+                const res = await httpRegister(
+                    namex,
+                    familyx,
+                    usernamex,
+                    emailx,
+                    passwordx,
+                    bornDatex
+                );
+                console.log(res);
+                notify('success', 'ok');
+                props.history.replace('/');
+            } else {
+                await notify('error', 'please fill all fileds');
             }
         } catch (err) {
             console.log(err);
@@ -62,7 +76,7 @@ const Register = () => {
                                             id="inputName"
                                             className="form-control"
                                             placeholder="Name"
-                                            value={name}
+                                            value={namex}
                                             onChange={(e) =>
                                                 setName(e.target.value)
                                             }
@@ -77,7 +91,7 @@ const Register = () => {
                                             id="inputFamily"
                                             className="form-control"
                                             placeholder="Family"
-                                            value={family}
+                                            value={familyx}
                                             onChange={(e) =>
                                                 setFamily(e.target.value)
                                             }
@@ -90,7 +104,7 @@ const Register = () => {
                                             id="inputUserame"
                                             className="form-control"
                                             placeholder="Username"
-                                            value={username}
+                                            value={usernamex}
                                             onChange={(e) =>
                                                 setUsername(e.target.value)
                                             }
@@ -103,7 +117,7 @@ const Register = () => {
                                             id="inputEmail"
                                             className="form-control"
                                             placeholder="Example@info.com"
-                                            value={email}
+                                            value={emailx}
                                             onChange={(e) =>
                                                 setEmail(e.target.value)
                                             }
@@ -117,7 +131,7 @@ const Register = () => {
                                             id="birthday"
                                             name="birthday"
                                             className="form-control"
-                                            value={bornDate}
+                                            value={bornDatex}
                                             onChange={(e) =>
                                                 setBornDate(e.target.value)
                                             }
@@ -132,7 +146,7 @@ const Register = () => {
                                             id="inputPassword"
                                             className="form-control"
                                             placeholder="Password"
-                                            value={password}
+                                            value={passwordx}
                                             onChange={(e) =>
                                                 setPassword(e.target.value)
                                             }
@@ -145,7 +159,7 @@ const Register = () => {
                                             id="inputConfirmPassword"
                                             className="form-control"
                                             placeholder="Password"
-                                            value={passwordRe}
+                                            value={passwordRex}
                                             onChange={(e) =>
                                                 setPasswordRe(e.target.value)
                                             }
