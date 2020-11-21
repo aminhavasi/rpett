@@ -44,14 +44,23 @@ const Register = (props) => {
                     passwordx,
                     bornDatex
                 );
-                console.log(res);
-                notify('success', 'ok');
+                notify('success', 'User successfully registered');
+                if (res.headers['x-auth-token']) {
+                    await localStorage.setItem(
+                        'token',
+                        res.headers['x-auth-token']
+                    );
+                }
                 props.history.replace('/');
             } else {
-                await notify('error', 'please fill all fileds');
+                await notify('error', 'Please fill in all fields');
             }
         } catch (err) {
-            console.log(err);
+            if (err.response && err.response.status === 404) {
+                notify('error', err.response.data);
+            } else {
+                notify('error', 'something went wrong');
+            }
         }
     };
 
