@@ -37,7 +37,7 @@ const checkLength = (input, min, max) => {
     if (input.value.length < min) {
         return showError(
             input,
-            `${getFeildName(input)} must be at least ${min} characters`
+            `${getFeildName(input)} حداقل  ${min} کارارکتر`
         );
     } else if (input.value.length > max) {
         return showError(
@@ -78,6 +78,14 @@ const checkRequirement = (inputArray) => {
                 let errorx = checkUsername(input[0]);
                 if (errorx) errors.push(errorx);
                 return;
+            } else if (input[0].id === 'inputRange') {
+                console.log(typeof Number(input[0].value));
+                if (
+                    input[0].value.length < input[1] ||
+                    input[0].value.length > input[2]
+                ) {
+                    console.log('range falut');
+                }
             } else {
                 let errorx = checkLength(input[0], input[1], input[2]);
                 if (errorx) errors.push(errorx);

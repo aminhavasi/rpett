@@ -10,7 +10,7 @@ const Register = (props) => {
     const [emailx, setEmail] = useState('');
     const [passwordx, setPassword] = useState('');
     const [passwordRex, setPasswordRe] = useState('');
-
+    const [range, setRange] = useState('');
     const [bornDatex, setBornDate] = useState('');
     const [usernamex, setUsername] = useState('');
 
@@ -25,6 +25,7 @@ const Register = (props) => {
         const bd = document.getElementById('birthday');
         const password = document.getElementById('inputPassword');
         const password2 = document.getElementById('inputConfirmPassword');
+        const rd = document.getElementById('inputRange');
         try {
             const erx = await checkRequirement([
                 [name, 3, 255],
@@ -33,6 +34,7 @@ const Register = (props) => {
                 [email, 3, 255],
                 [password2, 8, 1024],
                 [password, 8, 1024],
+                [rd, 3, 10],
                 [bd, 10, 11],
             ]);
             if (erx.length === 0) {
@@ -129,6 +131,19 @@ const Register = (props) => {
                                             value={emailx}
                                             onChange={(e) =>
                                                 setEmail(e.target.value)
+                                            }
+                                        />
+                                        <small>no</small>
+                                    </div>
+                                    <div className="form-label-group">
+                                        <input
+                                            type="text"
+                                            id="inputRange"
+                                            className="form-control"
+                                            placeholder="range"
+                                            value={range}
+                                            onChange={(e) =>
+                                                setRange(e.target.value)
                                             }
                                         />
                                         <small>no</small>
