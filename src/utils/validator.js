@@ -80,11 +80,11 @@ const checkRequirement = (inputArray) => {
                 return;
             } else if (input[0].id === 'inputRange') {
                 console.log(typeof Number(input[0].value));
-                if (
-                    input[0].value.length < input[1] ||
-                    input[0].value.length > input[2]
-                ) {
-                    console.log('range falut');
+                if (input[0].value < input[1] || input[0].value > input[2]) {
+                    let errorx = showError(input[0], 'range is invalid');
+                    if (errorx) errors.push(errorx);
+                } else {
+                    showSuccess(input[0], 'good');
                 }
             } else {
                 let errorx = checkLength(input[0], input[1], input[2]);

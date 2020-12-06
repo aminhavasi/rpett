@@ -34,7 +34,7 @@ const Register = (props) => {
                 [email, 3, 255],
                 [password2, 8, 1024],
                 [password, 8, 1024],
-                [rd, 3, 10],
+                [rd, 20, 30],
                 [bd, 10, 11],
             ]);
             if (erx.length === 0) {
@@ -136,9 +136,13 @@ const Register = (props) => {
                                         <small>no</small>
                                     </div>
                                     <div className="form-label-group">
+                                        <p>{range ? range : 'not set'}</p>
                                         <input
-                                            type="text"
+                                            type="range"
                                             id="inputRange"
+                                            name="vol"
+                                            min="20"
+                                            max="30"
                                             className="form-control"
                                             placeholder="range"
                                             value={range}
