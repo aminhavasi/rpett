@@ -79,8 +79,15 @@ const checkRequirement = (inputArray) => {
                 if (errorx) errors.push(errorx);
                 return;
             } else if (input[0].id === 'inputRange') {
-                console.log(typeof Number(input[0].value));
-                if (input[0].value < input[1] || input[0].value > input[2]) {
+                if (!typeof Number(input[0].value)) {
+                    let errorx = showError(input[0], 'invalid input');
+                    if (errorx) errors.push(errorx);
+                    return;
+                }
+                if (
+                    Number(input[0].value) < input[1] ||
+                    Number(input[0].value) > input[2]
+                ) {
                     let errorx = showError(input[0], 'range is invalid');
                     if (errorx) errors.push(errorx);
                 } else {

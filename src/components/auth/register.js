@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { checkRequirement } from '../../utils/validator';
 import { httpRegister } from './../../services/httpAuth';
 import './auth.css';
@@ -13,6 +13,9 @@ const Register = (props) => {
     const [range, setRange] = useState('');
     const [bornDatex, setBornDate] = useState('');
     const [usernamex, setUsername] = useState('');
+    const [sec, setSec] = useState('');
+    const [min, setMin] = useState('');
+    const [Ho, setHo] = useState('');
 
     //-------------------------------------------------
 
@@ -65,10 +68,26 @@ const Register = (props) => {
             }
         }
     };
-
+    let tick = () => {
+        var d = new Date();
+        var n = d.getSeconds();
+        var b = d.getMinutes();
+        var c = d.getHours();
+        setSec(n);
+        //as
+        
+        setHo(c);
+        setMin(b);
+    };
+    useEffect(() => {
+        let timerId = setTimeout(tick, 1000);
+    });
     return (
         <React.Fragment>
             <div className="containe auth">
+                <span className="city-time">
+                    {Ho}:{min}:{sec}
+                </span>
                 <div className="row">
                     <div className="col-lg-10 col-xl-9 mx-auto">
                         <div className="card card-signin flex-row my-5">
