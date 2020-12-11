@@ -4,10 +4,15 @@ import Login from './components/auth/login';
 import Home from './components/homepage/home';
 import Register from './components/auth/register';
 import 'react-toastify/dist/ReactToastify.css';
+import { FaBeer } from 'react-icons/fa';
 import { ToastContainer } from 'react-toastify';
 const App = () => {
     return (
         <div>
+            <h3>
+                {' '}
+                Lets go for a <FaBeer />?{' '}
+            </h3>
             <ToastContainer
                 position="top-right"
                 autoClose={5000}
